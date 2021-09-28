@@ -9,7 +9,7 @@ def welcome_assignment_answers(question):
     if question == "Are encoding and encryption the same? - Yes/No":
         answer = "No"
     elif question == "Is it possible to decrypt a message without a key? - Yes/No":
-        answer = "Yes"
+        answer = "No"
     elif question == "In Slack, what is the secret passphrase posted in the #cyberfellows-computernetworking-fall2021 channel posted by a TA?":
         answer = "mTLS"
     elif question == "Is it possible to decode a message without a key? - Yes/No":
