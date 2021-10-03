@@ -41,15 +41,19 @@ def webServer(port=13331):
             connectionSocket.close()
         except (KeyboardInterrupt):
             try:
+                
                 if connectionSocket:
                     connectionSocket.shutdown()
                     connectionSocket.close()
                 if serverSocket:
                     serverSocket.shutdown()
                     serverSocket.close()
-                sys.exit()
+                break
             except: pass
             break
+    connectionSocket.shutdown()
+    connectionSocket.close()
+    serverSocket.shutdown()
     serverSocket.close()
     sys.exit()
 
