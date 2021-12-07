@@ -5,6 +5,7 @@ import struct
 import time
 import select
 import binascii
+import statistics
 # Should use stdev
 
 ICMP_ECHO_REQUEST = 8
@@ -116,8 +117,12 @@ def ping(host, timeout=1):
         print(delay)
         delays.append(delay)
         time.sleep(1)  # one second
-    return delays
-    # return vars
+    packet_min = min(delays)
+    packet_avg = statistics.mean(delays)
+    packet_max = max(delays)
+    packet_stdev = statistics.stdev(delays)
+    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)), str(round(packet_stdev, 2))]
+    return vars
 
 if __name__ == '__main__':
     ping("google.co.il")
