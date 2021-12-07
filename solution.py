@@ -123,7 +123,7 @@ def ping(host, timeout=1):
     print(f'packet_max: {packet_max}')
     packet_stdev = statistics.stdev(delays)
     print(f'packet_stdev: {packet_stdev}')
-    vars = [str(packet_min, 2), str(packet_avg, 2), (packet_max, 2), str(packet_stdev, 2)]
+    vars = [str(packet_min), str(packet_avg), (packet_max), str(packet_stdev)]
     print(f'vars: {vars}')
     return vars
 
