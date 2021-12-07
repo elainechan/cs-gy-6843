@@ -51,8 +51,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         print
         if header_type != 8 and packet_id == ID:
             bytes_double = struct.calcsize('d')
-            end_index = 28 + bytes_double
-            time_sent = struct.unpack('d', received_bytes[28:end_index])[0]
+            time_sent = struct.unpack('d', received_bytes[28:28+bytes_double])[0]
             return timeReceived - time_sent
 
         # Fill in end
@@ -92,7 +91,6 @@ def sendOnePing(mySocket, destAddr, ID):
 def doOnePing(destAddr, timeout):
     icmp = getprotobyname("icmp")
 
-
     # SOCK_RAW is a powerful socket type. For more details:   http://sockraw.org/papers/sock_raw
     mySocket = socket(AF_INET, SOCK_RAW, icmp)
 
@@ -114,14 +112,19 @@ def ping(host, timeout=1):
     delays = []
     for i in range(0,4):
         delay = doOnePing(dest, timeout)
-        print(delay)
+        # print(delay)
         delays.append(delay)
         time.sleep(1)  # one second
     packet_min = min(delays)
+    print(f'packet_min: {packet_min}')
     packet_avg = statistics.mean(delays)
+    print(f'packet_avg: {packet_avg}')
     packet_max = max(delays)
+    print(f'packet_max: {packet_max}')
     packet_stdev = statistics.stdev(delays)
+    print(f'packet_stdev: {packet_stdev}')
     vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)), str(round(packet_stdev, 2))]
+    print(f'vars: {vars}')
     return vars
 
 if __name__ == '__main__':
