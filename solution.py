@@ -55,13 +55,13 @@ def build_packet():
         my_checksum = htons(my_checksum) & 0xffff
     else:
         my_checksum = htons(my_checksum)
-    # Don’t send the packet yet , just return the final packet in this function.
-    #Fill in end
-
-    # So the function ending should look like this
     header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, my_checksum, packet_id, 1)
     packet = header + data
+    # Don’t send the packet yet , just return the final packet in this function.
+    #Fill in end
     return packet
+
+    # So the function ending should look like this
 
 def get_route(hostname):
     timeLeft = TIMEOUT 
@@ -70,7 +70,7 @@ def get_route(hostname):
     for ttl in range(1,MAX_HOPS):
         for tries in range(TRIES):
             tracelist1 = [] #This is your list to use when iterating through each trace
-            tracelist1.append(str(ttl))
+            
             destAddr = gethostbyname(hostname)
 
             #Fill in start
@@ -98,7 +98,6 @@ def get_route(hostname):
                 
                 timeReceived = time.time()
                 rtt = str(int(round((timeReceived - startedSelect) * 1000, 0))) + "ms"
-                tracelist1.append(rtt)
                 timeLeft = timeLeft - howLongInSelect
                 if timeLeft <= 0:
                     tracelist1.append("* * * Request timed out.")
@@ -133,6 +132,8 @@ def get_route(hostname):
                     # rtt = str(int(round((timeReceived - t) * 1000, 0))) + "ms"
                     # res = [str(ttl), rtt, addr[0], host]
                     #You should add your responses to your lists here
+                    tracelist1.append(str(ttl))
+                    tracelist1.append(rtt)
                     tracelist1.append(addr[0])
                     tracelist1.append(host)
                     tracelist2.append(tracelist1)
@@ -146,6 +147,8 @@ def get_route(hostname):
                     # #You should add your responses to your lists here 
                     # rtt = str(int(round((timeReceived - t) * 1000, 0))) + "ms"
                     # res = [str(ttl), rtt, addr[0], host]
+                    tracelist1.append(str(ttl))
+                    tracelist1.append(rtt)
                     tracelist1.append(addr[0])
                     tracelist1.append(host)
                     tracelist2.append(tracelist1)
@@ -172,6 +175,8 @@ def get_route(hostname):
                     #Fill in start
                     error = "error"
                     #If there is an exception/error to your if statements, you should append that to your list here
+                    tracelist1.append(str(ttl))
+                    tracelist1.append(rtt)
                     tracelist1.append(addr[0])
                     tracelist1.append(error)
                     tracelist2.append(tracelist1)
@@ -183,8 +188,10 @@ def get_route(hostname):
     return tracelist2
 
 # print(get_route('www.google.com'))
-get_route('www.google.com')
-print(get_route('www.google.com'))
+# get_route('www.google.com')
+if __name__ == "__main__":
+    get_route('www.google.com')
+    # print(get_route('www.google.com'))
 
 '''
 All values must be strings
@@ -196,7 +203,6 @@ type 0 (an echo reply) which should only come from the destination you're
 actually tracing to; you want the loop to end at that point.  As is, you're 
 reaching www.google.com at hop 10, and then continuing to send pings to 
 www.google.com for hops 11-29.
-
 
 In your most recent submission on Gradescope, your get_route definition starts 
 off with initializing both tracelist1 and tracelist2 as empty lists.  You only 
