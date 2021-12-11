@@ -93,6 +93,8 @@ def get_route(hostname):
                     #You should add the list above to your all traces list
                     #Fill in end
                 recvPacket, addr = mySocket.recvfrom(1024)
+                print(addr)
+                
                 timeReceived = time.time()
                 timeLeft = timeLeft - howLongInSelect
                 if timeLeft <= 0:
@@ -122,8 +124,13 @@ def get_route(hostname):
                     bytes])[0]
                     #Fill in start
                     #You should add your responses to your lists here
-                    rtt = str(round((timeReceived - t) * 1000, 0)) + "ms"
-                    res = [ttl, rtt, addr[0], hostname]
+                    rtt = str(int(round((timeReceived - t) * 1000, 0))) + "ms"
+                    host = ''
+                    try:
+                        host = gethostbyaddr(addr[0])[0]
+                    except:
+                        host = 'hostname not returnable'
+                    res = [str(ttl), rtt, addr[0], host]
                     # print(res)
                     tracelist2.append(res)
                     #Fill in end
@@ -132,8 +139,13 @@ def get_route(hostname):
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     #You should add your responses to your lists here 
-                    rtt = str(round((timeReceived - t) * 1000, 0)) + "ms"
-                    res = [ttl, rtt, addr[0], hostname]
+                    rtt = str(int(round((timeReceived - t) * 1000, 0))) + "ms"
+                    host = ''
+                    try:
+                        host = gethostbyaddr(addr[0])[0]
+                    except:
+                        host = 'hostname not returnable'
+                    res = [str(ttl), rtt, addr[0], host]
                     # print(res)
                     tracelist2.append(res)
                     #Fill in end
@@ -142,8 +154,13 @@ def get_route(hostname):
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     #You should add your responses to your lists here and return your list if your destination IP is met
-                    rtt = str(round((timeReceived - timeSent) * 1000, 0)) + "ms"
-                    res = [ttl, rtt, addr[0], hostname]
+                    rtt = str(int(round((timeReceived - timeSent) * 1000, 0))) + "ms"
+                    host = ''
+                    try:
+                        host = gethostbyaddr(addr[0])[0]
+                    except:
+                        host = 'hostname not returnable'
+                    res = [str(ttl), rtt, addr[0], host]
                     # print(res)
                     tracelist2.append(res)
                     #Fill in end
@@ -158,4 +175,16 @@ def get_route(hostname):
                 mySocket.close()
     return tracelist2
 # print('www.google.com')
-# print(get_route('www.google.com'))
+print(get_route('www.google.com'))
+
+'''
+All values must be strings
+
+You're also not resolving the hostname of the replying IP; see how it's 
+www.google.com on every hop?  Additionally, you should put a return statement 
+in your elif types == 0, since that's the block where you're getting an ICMP 
+type 0 (an echo reply) which should only come from the destination you're 
+actually tracing to; you want the loop to end at that point.  As is, you're 
+reaching www.google.com at hop 10, and then continuing to send pings to 
+www.google.com for hops 11-29.
+'''
