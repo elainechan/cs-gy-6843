@@ -183,7 +183,7 @@ def get_route(hostname):
     return tracelist2
 
 # print(get_route('www.google.com'))
-# get_route('www.google.com')
+get_route('www.google.com')
 print(get_route('www.google.com'))
 
 '''
