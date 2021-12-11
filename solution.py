@@ -113,9 +113,13 @@ def get_route(hostname):
                 #Fill in end
                 # try: #try to fetch the hostname
                     #Fill in start
+                try:
+                    host = gethostbyaddr(addr[0])[0]
                     #Fill in end
                 # except herror:   #if the host does not provide a hostname
                     #Fill in start
+                except herror:
+                    host = 'hostname not returnable'
                     #Fill in end
                 # [‘1’, ‘12ms’, ‘10.10.111.10’, ‘hop1.com’]
                 if types == 11:
@@ -125,11 +129,6 @@ def get_route(hostname):
                     #Fill in start
                     #You should add your responses to your lists here
                     rtt = str(int(round((timeReceived - t) * 1000, 0))) + "ms"
-                    host = ''
-                    try:
-                        host = gethostbyaddr(addr[0])[0]
-                    except:
-                        host = 'hostname not returnable'
                     res = [str(ttl), rtt, addr[0], host]
                     # print(res)
                     tracelist2.append(res)
@@ -140,11 +139,6 @@ def get_route(hostname):
                     #Fill in start
                     #You should add your responses to your lists here 
                     rtt = str(int(round((timeReceived - t) * 1000, 0))) + "ms"
-                    host = ''
-                    try:
-                        host = gethostbyaddr(addr[0])[0]
-                    except:
-                        host = 'hostname not returnable'
                     res = [str(ttl), rtt, addr[0], host]
                     # print(res)
                     tracelist2.append(res)
@@ -155,11 +149,6 @@ def get_route(hostname):
                     #Fill in start
                     #You should add your responses to your lists here and return your list if your destination IP is met
                     rtt = str(int(round((timeReceived - timeSent) * 1000, 0))) + "ms"
-                    host = ''
-                    try:
-                        host = gethostbyaddr(addr[0])[0]
-                    except:
-                        host = 'hostname not returnable'
                     res = [str(ttl), rtt, addr[0], host]
                     # print(res)
                     tracelist2.append(res)
@@ -174,6 +163,7 @@ def get_route(hostname):
             finally:
                 mySocket.close()
     return tracelist2
+
 # print('www.google.com')
 print(get_route('www.google.com'))
 get_route('www.google.com')
