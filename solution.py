@@ -160,4 +160,4 @@ def get_route(hostname):
 
 if __name__ == "__main__":
     get_route('www.google.com')
-    print(get_route('www.google.com'))
+    # print(get_route('www.google.com'))
