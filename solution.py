@@ -93,7 +93,6 @@ def get_route(hostname):
                     #You should add the list above to your all traces list
                     #Fill in end
                 recvPacket, addr = mySocket.recvfrom(1024)
-                print(addr)
                 
                 timeReceived = time.time()
                 timeLeft = timeLeft - howLongInSelect
@@ -164,9 +163,9 @@ def get_route(hostname):
                 mySocket.close()
     return tracelist2
 
-# print('www.google.com')
+# print(get_route('www.google.com'))
+# get_route('www.google.com')
 print(get_route('www.google.com'))
-get_route('www.google.com')
 
 '''
 All values must be strings
