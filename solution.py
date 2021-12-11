@@ -124,8 +124,8 @@ def get_route(hostname):
                 # except herror:   #if the host does not provide a hostname
                     #Fill in start
                 except herror:
-                    pass
-                    # host = 'hostname not returnable'
+                    # pass
+                    host = 'hostname not returnable'
                     #Fill in end
                 # [‘1’, ‘12ms’, ‘10.10.111.10’, ‘hop1.com’]
                 if types == 11:
